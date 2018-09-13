@@ -7,6 +7,13 @@ class UIAttrsbox extends React.Component<IProps, any> {
   constructor(props: IProps) {
     super(props);
   }
+  public componentDidUpdate() {
+    setTimeout(() => {
+      this.props.editorbox.selectedShape.map((item: any) => {
+        item.render();
+      });
+    });
+  }
   public render() {
     const { selectedShape } = this.props.editorbox;
     return (
