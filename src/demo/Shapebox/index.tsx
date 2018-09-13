@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../App.css';
 import * as UIComponents from '../../uicomponents/UIComponents';
 import ShapeFactory, { createShape } from '../../util/shapeFactory';
 import * as util from '../../util/common';

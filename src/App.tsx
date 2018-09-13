@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './App.css';
+import './App.less';
 import Shapebox from './demo/Shapebox';
 import Editorbox from './demo/Editor';
 import Attrsbox from './demo/Attrsbox';
