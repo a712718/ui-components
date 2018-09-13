@@ -1,5 +1,33 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
 .App {
   text-align: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+.shape-box {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  border-right: 1px solid red;
+}
+.editor-box {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  border-right: 1px solid red;
+}
+.property-box {
+  position: relative;
+  flex: 1;
+  height: 100%;
 }
 
 .App-logo {
@@ -23,6 +51,10 @@
 }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -1,10 +1,30 @@
 {
-  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
+  "jsRules": {},
+  "rules": {
+    "prettier": true,
+    "semicolon": false,
+    "quotemark": [true, "single", "jsx-double"],
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "jsx-no-multiline-js": false,
+    "no-shadowed-variable": false,
+    "no-submodule-imports": false,
+    "no-implicit-dependencies": false,
+    "no-console": {
+      "severity": "warning",
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+    }
+  },
+  "rulesDirectory": [],
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
       "node_modules/**/*.ts",
-      "coverage/lcov-report/*.js"
+      "coverage/lcov-report/*.js",
+      "src/util/Vector2D/*.ts",
+      "src/util/Vector2D/*.js"
     ]
   }
 }
