@@ -1,24 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 interface IProps {
-  editorbox: any;
+  shapebox: any;
 }
 class UIAttrsbox extends React.Component<IProps, any> {
   constructor(props: IProps) {
     super(props);
   }
-  public componentDidUpdate() {
-    setTimeout(() => {
-      this.props.editorbox.selectedShape.map((item: any) => {
-        item.render();
-      });
-    });
-  }
   public render() {
-    const { selectedShape } = this.props.editorbox;
+    const { shapes } = this.props.shapebox;
     return (
       <div id="propertybox" className="property-box">
-        {selectedShape.map((shape: any, shapeIndex: number) => (
+        {shapes.map((shape: any, shapeIndex: number) => (
           <div
             style={{
               position: 'relative',
@@ -27,6 +20,7 @@ class UIAttrsbox extends React.Component<IProps, any> {
               width: 0,
               height: 0,
               zIndex: 10,
+              display: shape.attrs.display || 'none',
             }}
             id={shape.attrs && `attrsbox-${shape.attrs.id}`}
             key={shapeIndex}
@@ -38,7 +32,7 @@ class UIAttrsbox extends React.Component<IProps, any> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    editorbox: state.editorbox,
+    shapebox: state.shapebox,
   };
 };
 

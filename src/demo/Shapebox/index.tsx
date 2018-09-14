@@ -16,9 +16,6 @@ class Shapebox extends React.Component<any, any> {
     super(props);
     this.state = {
       shapeGroups: UIComponents.UIShapeGroups,
-      shapes: [],
-      selectedShape: [],
-      first: true,
     };
     this.createShapes = this.createShapes.bind(this);
   }
