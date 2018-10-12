@@ -15,7 +15,7 @@ class Shapebox extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      shapeGroups: UIComponents.UIShapeGroups,
+      UIShapes: UIComponents.UIShapes,
     };
     this.createShapes = this.createShapes.bind(this);
   }
@@ -33,24 +33,21 @@ class Shapebox extends React.Component<any, any> {
   }
 
   public render() {
-    const { shapeGroups } = this.state;
+    const { UIShapes } = this.state;
     return (
       <div id="shapebox" className="shape-box">
-        {shapeGroups.map((shapeGroup: any, groupIndex: number) => (
-          <div key={groupIndex} style={{ width: 200, height: 200 }}>
-            {shapeGroup.shapes.map((shape: any, shapeIndex: number) => (
-              <div
-                id={`shape-${groupIndex}${shapeIndex}`}
-                key={shapeIndex}
-                style={{ position: 'relative', width: 80, height: 80 }}
-                onMouseDown={this.startMoveShape.bind(
-                  this,
-                  shape,
-                  this.shapeFactory,
-                )}
-              />
-            ))}
-          </div>
+        <div>拖动这里的UI控件到中间栏呀</div>
+        {UIShapes.map((shape: any, shapeIndex: number) => (
+          <div
+            id={`shape-${shapeIndex}`}
+            key={shapeIndex}
+            style={{ position: 'relative', width: 80, height: 80 }}
+            onMouseDown={this.startMoveShape.bind(
+              this,
+              shape,
+              this.shapeFactory,
+            )}
+          />
         ))}
       </div>
     );
@@ -59,24 +56,22 @@ class Shapebox extends React.Component<any, any> {
   // 创建图库基础图元
   private createShapes = () => {
     // 遍历工具组，再遍历组中的图元，放到render里为每个图元创建的stage中
-    this.state.shapeGroups.map((groupItem: any, groupIndex: number) => {
-      groupItem.shapes.map((shape: any, shapeIndex: number) => {
-        const shapeClone = JSON.parse(JSON.stringify(shape));
-        util.shapeScaleAndXY(shapeClone, 30, 30);
-        const shapeWrap = 'shape-' + groupIndex + '' + shapeIndex;
-        shapeClone.attrs.shapeMountPoint = shapeWrap;
-        const id = groupIndex + '' + shapeIndex;
-        shapeClone.attrs.shapeId = id;
-        shapeClone.attrs.id = id;
-        shapeClone.attrs.left = 0;
-        shapeClone.attrs.top = 0;
-        shapeClone.attrs.isShapebox = true;
-        const shapeInstance = this.createShapeInstance(
-          shapeClone,
-          this.shapeFactory,
-        );
-        shapeInstance.render();
-      });
+    this.state.UIShapes.map((shape: any, shapeIndex: number) => {
+      const shapeClone = JSON.parse(JSON.stringify(shape));
+      util.shapeScaleAndXY(shapeClone, 30, 30);
+      const shapeWrap = 'shape-' + '' + shapeIndex;
+      shapeClone.attrs.shapeMountPoint = shapeWrap;
+      const id = '' + shapeIndex;
+      shapeClone.attrs.shapeId = id;
+      shapeClone.attrs.id = id;
+      shapeClone.attrs.left = 0;
+      shapeClone.attrs.top = 0;
+      shapeClone.attrs.isShapebox = true;
+      const shapeInstance = this.createShapeInstance(
+        shapeClone,
+        this.shapeFactory,
+      );
+      shapeInstance.render();
     });
   };
   // shapebox 根据shape类型，用shapeFactory创建基本图元,所有shapebox图元的创建都要经过这里

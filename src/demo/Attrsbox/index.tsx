@@ -17,8 +17,6 @@ class UIAttrsbox extends React.Component<IProps, any> {
               position: 'relative',
               left: 0,
               top: 0,
-              width: 0,
-              height: 0,
               zIndex: 10,
               display: shape.attrs.display || 'none',
             }}

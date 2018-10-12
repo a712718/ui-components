@@ -1,15 +1,22 @@
 import * as React from 'react';
-import * as combinedActions from '../Attrsbox/actions';
+import * as combinedActions from '../ButtonAttrsbox/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button } from 'antd';
-
+import { Button, Icon } from 'antd';
+import '../index.less';
 interface IProps {
   actionDispatcher: typeof combinedActions;
   attrsbox: any;
   attrs: any;
 }
-
+const buttonSvg = () => (
+  <svg viewBox="0 0 1536 1024" version="1.1" p-id="3488" width="30" height="30">
+    <path
+      d="M512 134.4a377.6 377.6 0 0 0 0 755.2h512a377.6 377.6 0 0 0 0-755.2H512zM512 0h512a512 512 0 1 1 0 1024H512A512 512 0 1 1 512 0z"
+      p-id="3489"
+    />
+  </svg>
+);
 class UIButton extends React.Component<IProps, any> {
   constructor(props: IProps) {
     super(props);
@@ -24,16 +31,9 @@ class UIButton extends React.Component<IProps, any> {
     if (!!id) {
       if (isShapebox) {
         return (
-          <Button
-            style={{
-              position: 'absolute',
-              left: start.x,
-              top: start.y,
-            }}
-            type="default"
-          >
-            {text}
-          </Button>
+          <div>
+            <Icon component={buttonSvg} />
+          </div>
         );
       } else {
         return (
@@ -58,7 +58,7 @@ class UIButton extends React.Component<IProps, any> {
 
 const mapStateToProps = (state: any) => {
   return {
-    attrsbox: state.attrsbox,
+    attrsbox: state.buttonAttrsbox,
   };
 };
 
