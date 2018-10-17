@@ -40,14 +40,14 @@ export default class UIButton implements Interfaces.IButton {
       );
     }
   }
-  public name(name: string | undefined): string | void {
+  public name(name: string | void): string | void {
     if (name) {
       this.attrs.name = name;
     } else {
       return this.attrs.name;
     }
   }
-  public id(id: string | undefined): string | void {
+  public id(id: string | void): string | void {
     if (id) {
       this.attrs.id = id;
     } else {
