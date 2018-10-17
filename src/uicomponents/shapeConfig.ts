@@ -1,21 +1,22 @@
 import { SHAPE_TYPE } from './constants';
-export const UIShapes = [
+import * as Interfaces from './interfaces';
+export const UIShapes: Interfaces.IButtonMetaInfo[] = [
   {
     type: SHAPE_TYPE.UIButton,
     attrs: {
       name: 'button',
-      icon: 'button',
-      iconColor: '',
+      text: 'button',
       x: 0,
       y: 0,
-      text: 'button',
       width: 80,
       height: 80,
       enclosingWidth: 80,
       enclosingHeight: 80,
-      color: 'black',
-      background: 'pink',
       isUIComponent: true,
+      scale: {
+        x: 1,
+        y: 1,
+      },
     },
   },
 ];

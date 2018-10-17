@@ -1,5 +1,6 @@
+import Interfaces from '../appInterfaces';
 export const shapeScaleAndXY = (
-  shape: any,
+  shape: Interfaces.IButtonMetaInfo,
   wrapWidth: number,
   wrapHeight: number,
 ) => {

@@ -1,9 +1,16 @@
+import { AnyAction } from 'redux';
 import * as Constants from '../../appConstants';
-const initialState = {
+import Interfaces from '../../appInterfaces';
+
+interface IState {
+  shapes: Interfaces.IButton[];
+}
+
+const initialState: IState = {
   shapes: [],
 };
 
-function shapeboxReducer(state: any = initialState, action: any) {
+function shapeboxReducer(state = initialState, action: AnyAction) {
   switch (action.type) {
     case Constants.ShapeboxActionType.CREATE_SHAPE: {
       const shapes = [...state.shapes];
@@ -15,7 +22,7 @@ function shapeboxReducer(state: any = initialState, action: any) {
     }
     case Constants.EditorboxActionType.SELECT_SHAPE: {
       const shapes = [...state.shapes];
-      shapes.forEach((item: any) => {
+      shapes.forEach((item: Interfaces.IButton) => {
         item.attrs.display =
           item.attrs.id === action.data.attrs.id ? 'block' : 'none';
       });
@@ -26,7 +33,7 @@ function shapeboxReducer(state: any = initialState, action: any) {
     }
     case Constants.EditorboxActionType.DESELECT_SHAPE: {
       const shapes = [...state.shapes];
-      shapes.forEach((item: any) => {
+      shapes.forEach((item: Interfaces.IButton) => {
         item.attrs.display = 'none';
       });
       return {

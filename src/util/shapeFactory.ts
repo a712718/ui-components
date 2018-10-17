@@ -1,6 +1,7 @@
 // import { v1 } from 'uuid';
 import * as R from 'ramda';
 import { Victor as V } from './Vector2D';
+import Interfaces from '../appInterfaces';
 class ShapeFactory {
   private shapes = new Map();
 
@@ -10,7 +11,10 @@ class ShapeFactory {
     }
   };
 
-  public getShape = (type: string, options: any): any | null => {
+  public getShape = (
+    type: string,
+    options: Interfaces.IButtonMetaAttrs,
+  ): any | null => {
     const shape = this.shapes.get(type);
     if (shape) {
       // const id = !!options.id ? options.id : `${type}-${v1()}`;
@@ -46,43 +50,27 @@ export const createShape = (
   shapeFactory: ShapeFactory,
   isShapeBox?: boolean,
 ): any | null => {
-  if (typeof shape.attrs.layerX === 'undefined') {
-    shape.attrs.layerX = shape.attrs.x;
-    shape.attrs.layerY = shape.attrs.y;
-  }
-
-  const { scale, scaleX, scaleY, animation, ...property } = shape.attrs;
+  // if (typeof shape.attrs.layerX === 'undefined') {
+  //   shape.attrs.layerX = shape.attrs.x;
+  //   shape.attrs.layerY = shape.attrs.y;
+  // }
+  const { scale, ...property } = shape.attrs;
   if (isShapeBox) {
-    property.scaleX = scaleX;
-    property.scaleY = scaleY;
     property.scale = scale;
   }
   const node = shapeFactory.getShape(shape.type, property);
   if (!node) {
     return null;
   }
-
-  if (shape.type === 'Group') {
-    const groupNode = node as any;
-    const children: any[] = shape.children!;
-    if (children.length > 0) {
-      children.forEach((child: any) => {
-        const subNode = createShape(child, shapeFactory);
-        if (subNode) {
-          groupNode.add(subNode);
-        }
-      });
-    }
-  }
   return node;
 };
 
 export const createShapes = (
-  shapes: any[],
+  shapes: Interfaces.IButtonMetaInfo[],
   shapeFactory: ShapeFactory,
-): any[] => {
-  const resultShapes: any[] = [];
-  R.map((shape: any) => {
+): Interfaces.IButton[] => {
+  const resultShapes: Interfaces.IButton[] = [];
+  R.map((shape: Interfaces.IButtonMetaInfo) => {
     const node = createShape(shape, shapeFactory);
     if (!node) {
       return;

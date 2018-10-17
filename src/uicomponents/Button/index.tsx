@@ -3,11 +3,12 @@ import * as combinedActions from '../ButtonAttrsbox/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Icon } from 'antd';
+import * as Interfaces from '../interfaces';
 import '../index.less';
 interface IProps {
   actionDispatcher: typeof combinedActions;
-  attrsbox: any;
-  attrs: any;
+  attrsbox: Interfaces.IButtonAttrs;
+  attrs: Interfaces.IButtonAttrs;
 }
 const buttonSvg = () => (
   <svg viewBox="0 0 1536 1024" version="1.1" p-id="3488" width="30" height="30">
@@ -25,9 +26,8 @@ class UIButton extends React.Component<IProps, any> {
     });
   }
   public render() {
-    // console.log(['button index shapeAttrs', this.props.attrsbox.shapeAttrs]);
-    const { id, text, isShapebox, start } = this.props.attrsbox.shapeAttrs;
-    // 第一次render的时候redux没有更新，所以this.props.attrsbox.shapeAttrs为{}，要第二次才可以
+    const { id, text, isShapebox, x, y } = this.props.attrsbox;
+    // 第一次render的时候redux没有更新，所以this.props.attrsbox为{}，要第二次才可以
     if (!!id) {
       if (isShapebox) {
         return (
@@ -40,8 +40,8 @@ class UIButton extends React.Component<IProps, any> {
           <Button
             style={{
               position: 'absolute',
-              left: start.x,
-              top: start.y,
+              left: x,
+              top: y,
             }}
             type="default"
             id={id}

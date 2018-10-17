@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import Interfaces from '../../appInterfaces';
 interface IProps {
-  shapebox: any;
+  shapes: Interfaces.IButton[];
 }
 class UIAttrsbox extends React.Component<IProps, any> {
   constructor(props: IProps) {
     super(props);
   }
   public render() {
-    const { shapes } = this.props.shapebox;
+    const shapes = this.props.shapes;
     return (
       <div id="propertybox" className="property-box">
-        {shapes.map((shape: any, shapeIndex: number) => (
+        {shapes.map((shape: Interfaces.IButton, shapeIndex: number) => (
           <div
             style={{
               position: 'relative',
@@ -30,7 +31,7 @@ class UIAttrsbox extends React.Component<IProps, any> {
 }
 const mapStateToProps = (state: any) => {
   return {
-    shapebox: state.shapebox,
+    shapes: state.shapebox.shapes,
   };
 };
 

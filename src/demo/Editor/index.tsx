@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as combinedActions from './actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
+import Interfaces from '../../appInterfaces';
 interface IProps {
   actionDispatcher: typeof combinedActions;
-  shapebox: any;
+  shapes: Interfaces.IButton[];
 }
 
 class UIButton extends React.Component<IProps, any> {
@@ -16,17 +16,17 @@ class UIButton extends React.Component<IProps, any> {
   }
   public componentDidUpdate() {
     setTimeout(() => {
-      this.props.shapebox.shapes.map((item: any) => {
+      this.props.shapes.map((item: Interfaces.IButton) => {
         item.render();
       });
     });
   }
   public render() {
-    const { shapes } = this.props.shapebox;
+    const shapes = this.props.shapes;
     // 第一次render的时候redux没有更新，所以this.props.attrsbox.shapeAttrs为{}，要第二次才可以
     return (
       <div id="editorbox" className="editor-box" onClick={this.delSelectAll}>
-        {shapes.map((shape: any, shapeIndex: number) => (
+        {shapes.map((shape: Interfaces.IButton, shapeIndex: number) => (
           <div
             key={shapeIndex}
             id={`shape-${shape.attrs.id}`}
@@ -36,7 +36,7 @@ class UIButton extends React.Component<IProps, any> {
       </div>
     );
   }
-  private selectShape(shape: any, e: any) {
+  private selectShape(shape: Interfaces.IButton, e: any) {
     e.stopPropagation();
     this.props.actionDispatcher.selectShape(shape);
   }
@@ -49,7 +49,7 @@ class UIButton extends React.Component<IProps, any> {
 
 const mapStateToProps = (state: any) => {
   return {
-    shapebox: state.shapebox,
+    shapes: state.shapebox.shapes,
   };
 };
 

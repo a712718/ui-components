@@ -5,13 +5,14 @@ import Attrsbox from '../ButtonAttrsbox/index';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from '../reducers';
-interface IProps {
-  start: any;
-}
-export default class UIButton {
+import * as Interfaces from '../interfaces';
+import * as Contants from '../constants';
+
+export default class UIButton implements Interfaces.IButton {
   public store: any;
-  public attrs: any;
-  constructor(props: IProps) {
+  public attrs: Interfaces.IButtonAttrs;
+  constructor(props: Interfaces.IButtonAttrs) {
+    console.log(['mount props', props]);
     this.attrs = props;
     const initialState = {};
     // 必须这样写，生成的每个ui控件redux都独立
@@ -20,7 +21,6 @@ export default class UIButton {
   public render() {
     const { shapeMountPoint, attrsboxMountPoint } = this.attrs;
     const attrs = { ...this.attrs };
-    // console.log(['button mount this.attrs', this.attrs]);
     const shapeMountPointDiv = document.getElementById(shapeMountPoint);
     if (shapeMountPointDiv) {
       ReactDOM.render(
@@ -40,14 +40,14 @@ export default class UIButton {
       );
     }
   }
-  public name(name: any) {
+  public name(name: string | undefined): string | void {
     if (name) {
       this.attrs.name = name;
     } else {
       return this.attrs.name;
     }
   }
-  public id(id: any) {
+  public id(id: string | undefined): string | void {
     if (id) {
       this.attrs.id = id;
     } else {
@@ -61,20 +61,20 @@ export default class UIButton {
   public getType() {
     return 'UIButton';
   }
-  public setAttrs(attrs: any) {
+  public setAttrs(attrs: Interfaces.IButtonAttrs) {
     this.store.dispatch({
-      type: 'SET_SHAPE_ATTRS',
+      type: Contants.AttrsboxActionType.SET_SHAPE_ATTRS,
       data: attrs,
     });
   }
   public getAttrs() {
     const state = this.store.getState();
-    const shapeAttrs = state.buttonAttrsbox.shapeAttrs;
+    const shapeAttrs = state.buttonAttrsbox;
     return shapeAttrs;
   }
   public serialization() {
     const state = this.store.getState();
-    const shapeAttrs = state.buttonAttrsbox.shapeAttrs;
+    const shapeAttrs = state.buttonAttrsbox;
     return shapeAttrs;
   }
 }

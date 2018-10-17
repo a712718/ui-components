@@ -1,7 +1,9 @@
 import { AnyAction } from 'redux';
-export const setShapeAttrs = (shape: any): AnyAction => {
+import * as Contants from '../constants';
+import * as Interfaces from '../interfaces';
+export const setShapeAttrs = (shape: Interfaces.IButtonAttrs): AnyAction => {
   return {
-    type: 'SET_SHAPE_ATTRS',
+    type: Contants.AttrsboxActionType.SET_SHAPE_ATTRS,
     data: shape,
   };
 };

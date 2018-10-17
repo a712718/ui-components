@@ -7,12 +7,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as shapeboxActions from './actions';
 import * as editorboxActions from '../Editor/actions';
+import Interfaces from '../../appInterfaces';
 const combinedActions = { ...shapeboxActions, ...editorboxActions };
 
-class Shapebox extends React.Component<any, any> {
-  public UIComponents: any[];
+interface IProps {
+  actionDispatcher: typeof combinedActions;
+}
+interface IState {
+  UIShapes: Interfaces.IButtonMetaInfo[];
+}
+class Shapebox extends React.Component<IProps, IState> {
   public shapeFactory: ShapeFactory;
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       UIShapes: UIComponents.UIShapes,
@@ -21,7 +27,7 @@ class Shapebox extends React.Component<any, any> {
   }
   public componentWillMount() {
     this.shapeFactory = new ShapeFactory();
-    Object.keys(UIComponents.UISHAPETYPE).forEach((key: any) => {
+    Object.keys(UIComponents.UISHAPETYPE).forEach((key: string) => {
       this.shapeFactory.registerShape(
         (UIComponents.UISHAPETYPE as any)[key],
         (UIComponents as any)[key],
@@ -37,18 +43,16 @@ class Shapebox extends React.Component<any, any> {
     return (
       <div id="shapebox" className="shape-box">
         <div>拖动这里的UI控件到中间栏呀</div>
-        {UIShapes.map((shape: any, shapeIndex: number) => (
-          <div
-            id={`shape-${shapeIndex}`}
-            key={shapeIndex}
-            style={{ position: 'relative', width: 80, height: 80 }}
-            onMouseDown={this.startMoveShape.bind(
-              this,
-              shape,
-              this.shapeFactory,
-            )}
-          />
-        ))}
+        {UIShapes.map(
+          (shape: Interfaces.IButtonMetaInfo, shapeIndex: number) => (
+            <div
+              id={`shape-${shapeIndex}`}
+              key={shapeIndex}
+              style={{ position: 'relative', width: 80, height: 80 }}
+              onMouseDown={this.startMoveShape.bind(this, shape)}
+            />
+          ),
+        )}
       </div>
     );
   }
@@ -56,32 +60,37 @@ class Shapebox extends React.Component<any, any> {
   // 创建图库基础图元
   private createShapes = () => {
     // 遍历工具组，再遍历组中的图元，放到render里为每个图元创建的stage中
-    this.state.UIShapes.map((shape: any, shapeIndex: number) => {
-      const shapeClone = JSON.parse(JSON.stringify(shape));
-      util.shapeScaleAndXY(shapeClone, 30, 30);
-      const shapeWrap = 'shape-' + '' + shapeIndex;
-      shapeClone.attrs.shapeMountPoint = shapeWrap;
-      const id = '' + shapeIndex;
-      shapeClone.attrs.shapeId = id;
-      shapeClone.attrs.id = id;
-      shapeClone.attrs.left = 0;
-      shapeClone.attrs.top = 0;
-      shapeClone.attrs.isShapebox = true;
-      const shapeInstance = this.createShapeInstance(
-        shapeClone,
-        this.shapeFactory,
-      );
-      shapeInstance.render();
-    });
+    this.state.UIShapes.map(
+      (shape: Interfaces.IButtonMetaInfo, shapeIndex: number) => {
+        const shapeClone = JSON.parse(JSON.stringify(shape));
+        util.shapeScaleAndXY(shapeClone, 30, 30);
+        const shapeWrap = 'shape-' + '' + shapeIndex;
+        shapeClone.attrs.shapeMountPoint = shapeWrap;
+        const id = '' + shapeIndex;
+        // shapeClone.attrs.shapeId = id;
+        shapeClone.attrs.id = id;
+        shapeClone.attrs.left = 0;
+        shapeClone.attrs.top = 0;
+        shapeClone.attrs.isShapebox = true;
+        const shapeInstance: Interfaces.IButton = this.createShapeInstance(
+          shapeClone,
+          this.shapeFactory,
+        );
+        shapeInstance.render();
+      },
+    );
   };
   // shapebox 根据shape类型，用shapeFactory创建基本图元,所有shapebox图元的创建都要经过这里
-  private createShapeInstance(shape: any, shapeFactory: any) {
-    const instance = createShape(shape, shapeFactory, true);
+  private createShapeInstance(
+    shape: Interfaces.IButtonMetaInfo,
+    shapeFactory: ShapeFactory,
+  ) {
+    const instance: Interfaces.IButton = createShape(shape, shapeFactory, true);
     return instance;
   }
 
   // 开始移动某个图元
-  private startMoveShape(shape: any, shapeFactory: any, e: any) {
+  private startMoveShape(shape: Interfaces.IButtonMetaInfo, e: any) {
     e.persist();
     let shapeTop = e.clientY;
     let shapeLeft = e.clientX;
@@ -98,8 +107,8 @@ class Shapebox extends React.Component<any, any> {
       shapeLeft = shapeLeft - windowWidth / 3;
       shapeClone.attrs.x = shapeLeft;
       shapeClone.attrs.y = shapeTop;
-      shapeClone.attrs.layerX = shapeLeft;
-      shapeClone.attrs.layerY = shapeTop;
+      // shapeClone.attrs.layerX = shapeLeft;
+      // shapeClone.attrs.layerY = shapeTop;
       const id = `${shape.type}-${v1()}`;
       shapeClone.attrs.id = id;
       shapeClone.attrs.shapeMountPoint = 'shape-' + id;

@@ -1,6 +1,7 @@
 import { AnyAction } from 'redux';
 import * as Constants from '../../appConstants';
-export const createShape = (shape: any): AnyAction => {
+import Interfaces from '../../appInterfaces';
+export const createShape = (shape: Interfaces.IButton): AnyAction => {
   return {
     type: Constants.ShapeboxActionType.CREATE_SHAPE,
     data: shape,

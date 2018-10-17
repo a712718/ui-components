@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Input, Tabs, Form, Divider } from 'antd';
 import { bindActionCreators } from 'redux';
 import * as combinedActions from './actions';
+import * as Interfaces from '../interfaces';
 import './index.less';
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
@@ -20,21 +21,26 @@ const targetKeys = mockData
   .map(item => item.key);
 
 interface IProps {
-  attrsbox: any;
+  attrsbox: Interfaces.IButtonAttrs;
   actionDispatcher: typeof combinedActions;
 }
-class UIAttrsbox extends React.Component<IProps, any> {
+interface IState {
+  shapeAttrs: Interfaces.IButtonAttrs;
+  targetKeys: any;
+  selectedKeys: string[];
+}
+class UIAttrsbox extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      shapeAttrs: this.props.attrsbox.shapeAttrs,
+      shapeAttrs: this.props.attrsbox,
       targetKeys,
       selectedKeys: [],
     };
   }
-  public componentWillReceiveProps(nextProps: any) {
+  public componentWillReceiveProps(nextProps: IProps) {
     this.setState({
-      shapeAttrs: nextProps.attrsbox.shapeAttrs,
+      shapeAttrs: nextProps.attrsbox,
     });
   }
   public render() {
@@ -58,22 +64,22 @@ class UIAttrsbox extends React.Component<IProps, any> {
       },
       {
         type: 'leftX',
-        value: this.state.shapeAttrs.start.x,
+        value: this.state.shapeAttrs.x,
         label: '左边界',
       },
       {
         type: 'rightX',
-        value: this.state.shapeAttrs.start.x + this.state.shapeAttrs.width,
+        value: this.state.shapeAttrs.x + this.state.shapeAttrs.width,
         label: '右边界',
       },
       {
         type: 'topY',
-        value: this.state.shapeAttrs.start.y,
+        value: this.state.shapeAttrs.y,
         label: '上边界',
       },
       {
         type: 'bottomY',
-        value: this.state.shapeAttrs.start.y + this.state.shapeAttrs.height,
+        value: this.state.shapeAttrs.y + this.state.shapeAttrs.height,
         label: '下边界',
       },
       {
@@ -120,7 +126,7 @@ class UIAttrsbox extends React.Component<IProps, any> {
     );
   }
 
-  public setAttrs(type: string, e: any) {
+  public setAttrs(type: string, e: any): any {
     e.persist();
     const shapeAttrs = { ...this.state.shapeAttrs };
     // console.log(['e.target.value', e.target.value, type]);
@@ -131,37 +137,37 @@ class UIAttrsbox extends React.Component<IProps, any> {
         break;
       }
       case 'leftX': {
-        shapeAttrs.start.x = parseInt(e.target.value, 0);
+        shapeAttrs.x = parseInt(e.target.value, 0) || 0;
         this.setStateAttrs(shapeAttrs);
         break;
       }
       case 'rightX': {
-        shapeAttrs.start.x = parseInt(e.target.value, 0) - shapeAttrs.width;
+        shapeAttrs.x = (parseInt(e.target.value, 0) || 0) - shapeAttrs.width;
         this.setStateAttrs(shapeAttrs);
         break;
       }
       case 'topY': {
-        shapeAttrs.start.y = parseInt(e.target.value, 0);
+        shapeAttrs.y = parseInt(e.target.value, 0) || 0;
         this.setStateAttrs(shapeAttrs);
         break;
       }
       case 'bottomY': {
-        shapeAttrs.start.y = parseInt(e.target.value, 0) - shapeAttrs.height;
+        shapeAttrs.y = (parseInt(e.target.value, 0) || 0) - shapeAttrs.height;
         this.setStateAttrs(shapeAttrs);
         break;
       }
       case 'width': {
-        shapeAttrs.width = parseInt(e.target.value, 0);
+        shapeAttrs.width = parseInt(e.target.value, 0) || 0;
         this.setStateAttrs(shapeAttrs);
         break;
       }
       case 'height': {
-        shapeAttrs.height = parseInt(e.target.value, 0);
+        shapeAttrs.height = parseInt(e.target.value, 0) || 0;
         this.setStateAttrs(shapeAttrs);
         break;
       }
       case 'zIndex': {
-        shapeAttrs.zIndex = parseInt(e.target.value, 0);
+        shapeAttrs.zIndex = parseInt(e.target.value, 0) || 0;
         this.setStateAttrs(shapeAttrs);
         break;
       }
@@ -169,12 +175,12 @@ class UIAttrsbox extends React.Component<IProps, any> {
         return shapeAttrs;
     }
   }
-  private setStateAttrs(shapeAttrs: any) {
+  private setStateAttrs(shapeAttrs: Interfaces.IButtonAttrs) {
     this.setState({
       shapeAttrs,
     });
   }
-  private setStoreAttrs(shapeAttrs: any) {
+  private setStoreAttrs(shapeAttrs: Interfaces.IButtonAttrs) {
     this.props.actionDispatcher.setShapeAttrs(shapeAttrs);
   }
 }

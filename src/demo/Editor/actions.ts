@@ -1,6 +1,7 @@
 import * as Constants from '../../appConstants';
+import Interfaces from '../../appInterfaces';
 import { AnyAction } from 'redux';
-export const selectShape = (shape: any): AnyAction => {
+export const selectShape = (shape: Interfaces.IButton): AnyAction => {
   return {
     type: Constants.EditorboxActionType.SELECT_SHAPE,
     data: shape,
